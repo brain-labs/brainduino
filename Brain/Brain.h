@@ -18,18 +18,56 @@
 
 #include "Stream.h"
 #include "Print.h"
+#include "BrainDelegate.h"
+
+// only tested on Arduino Uno and not enough memory
+// therefore, the memory is very very small
+#define TAPE_SIZE 200 
+
+#define TT_SHIFT_LEFT '<'
+#define TT_SHIFT_RIGHT '>'
+#define TT_SHIFT_UP '^'
+#define TT_INCREMENT '+'
+#define TT_DECREMENT '-'
+#define TT_OUTPUT '.'
+#define TT_INPUT ','
+#define TT_BEGIN_WHILE '['
+#define TT_END_WHILE ']'
+#define TT_BEGIN_FOR '{'
+#define TT_END_FOR '}'
+#define TT_MUL '*'
+#define TT_DIV '/'
+#define TT_REM '%'
+#define TT_DEBUG '#'
+#define TT_BREAK '!'
+#define TT_IF_THEN '?'
+#define TT_IF_ELSE ':'
+#define TT_IF_END ';'
+#define TT_FLOAT '$'
 
 class Brain 
 {
 
 public:
-    Brain(Print *printer, Stream *streamIn, char const *code);
-    void write(void);
+    Brain(Print *printer, Stream *streamIn, BrainDelegate *delegate);
+    Brain(Print *printer, Stream *streamIn, BrainDelegate *delegate, char const *code);
+    void setCode(char const *code);
+    void writeCode(void);
+    void begin(void);
+    void runNextLoop(void);
+    int getValue(int index);
+    void setValue(int index, int value);
 
 private:
+    int _index;
+    bool _hasBegan;
+    char const *_code;
+    int _cells[TAPE_SIZE];
     Print *_printer;
     Stream *_streamIn;
-    char const *_code;
+    BrainDelegate *_delegate;
+
+    void set(Print *printer, Stream *streamIn, BrainDelegate *delegate, char const *code);    
 };
 
 #endif

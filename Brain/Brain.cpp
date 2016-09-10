@@ -7,15 +7,52 @@
 
 #include "Brain.h"
 
-Brain::Brain(Print *printer, Stream *streamIn, char const *code)
+Brain::Brain(Print *printer, Stream *streamIn, BrainDelegate *delegate)
+{
+    set(printer, streamIn, delegate, NULL);
+}
+
+Brain::Brain(Print *printer, Stream *streamIn, BrainDelegate *delegate, char const *code)
+{
+    set(printer, streamIn, delegate, code);
+}
+
+void Brain::set(Print *printer, Stream *streamIn, BrainDelegate *delegate, char const *code)
 {
     _printer = printer;
     _streamIn = streamIn;
+
+    _index = 0;
+    for (int i = 0; i < TAPE_SIZE; i++) {
+        _cells[i] = 0;
+    }
+
+    _delegate = delegate;
     _code = code;
 }
 
-void Brain::write(void)
+void Brain::setCode(char const *code)
+{
+    _code = code;
+}
+
+void Brain::writeCode(void)
 {
   _printer->println(_code);
 }
 
+void Brain::runNextLoop(void)
+{
+    if (!_hasBegan) {
+    }
+}
+
+int Brain::getValue(int index)
+{
+    return _cells[index];
+}
+
+void Brain::setValue(int index, int value)
+{
+    _cells[index] = value;
+}

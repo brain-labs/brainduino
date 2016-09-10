@@ -7,7 +7,7 @@
 
 #include <Brain.h>
 
-Brain brain = Brain(&Serial, NULL, "++++>>>>+++");
+Brain brain = Brain(&Serial, NULL, NULL, "++++>>>>+++");
 
 void setup()
 {
@@ -16,7 +16,7 @@ void setup()
 
 void loop()
 {
-  brain.write();
+  brain.writeCode();
   delay(500);
 }
 
