@@ -60,7 +60,7 @@ public:
 
 private:
     int _index;
-    bool _hasBegan;
+    int _action;
     char const *_code;
     int _cells[TAPE_SIZE];
     Print *_printer;

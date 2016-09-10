@@ -23,6 +23,7 @@ void Brain::set(Print *printer, Stream *streamIn, BrainDelegate *delegate, char 
     _streamIn = streamIn;
 
     _index = 0;
+    _action = 0;
     for (int i = 0; i < TAPE_SIZE; i++) {
         _cells[i] = 0;
     }
@@ -43,8 +44,8 @@ void Brain::writeCode(void)
 
 void Brain::runNextLoop(void)
 {
-    if (!_hasBegan) {
-    }
+    char token = _code[action];
+    // implement it
 }
 
 int Brain::getValue(int index)
