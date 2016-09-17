@@ -86,11 +86,11 @@ void Brain::run(void)
                     _jumps[_indexJumps] = _action;
                     _indexJumps++;
                 } else if (token == TT_BREAK && !_indexJumps) {
-                    write("Wrong '!'");
+                    write("Wrong '!'", true);
                 } else {
                     int loops = 1;
                     while (loops > 0 && _code[_action] != '\0' ) {
-                        action++;
+                        _action++;
                         if (loops == 1 
                             && _code[_action] == TT_IF_ELSE 
                             && token == TT_IF_THEN) {
@@ -132,7 +132,7 @@ void Brain::run(void)
                     if (token == TT_IF_ELSE) {
                         int loops = 1;
                         while (loops > 0 && _code[_action] != '\0') {
-                            action++;
+                            _action++;
                             if (_code[_action] == TT_END_WHILE
                                 || _code[_action] == TT_END_FOR
                                 || _code[_action] == TT_IF_END) {
@@ -146,7 +146,7 @@ void Brain::run(void)
                     }
                     
                     _indexJumps--;
-                } else if (_code[_jumps[_indexJumps - 1] == TT_BEGIN_FOR]) {
+                } else if (_code[_jumps[_indexJumps - 1]] == TT_BEGIN_FOR) {
                     _iterations[_indexIterations - 1]--;
                     if (_iterations[_indexIterations - 1] > 0) {
                         _action = _jumps[_indexJumps - 1];
@@ -158,7 +158,7 @@ void Brain::run(void)
                     if (_code[_jumps[_indexJumps - 1]] == TT_IF_ELSE) {
                         _indexJumps--;
                     } else if (_cells[_index] != 0) {
-                        _action = jumps[_indexJumps - 1];
+                        _action = _jumps[_indexJumps - 1];
                     } else {
                         _indexJumps--;
                     }
@@ -170,7 +170,7 @@ void Brain::run(void)
             default: break;
         }
         
-        if (_action != '\0') {
+        if (_code[_action] != '\0') {
             _action++;
         }
     }
