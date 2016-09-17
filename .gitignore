@@ -1,3 +1,8 @@
+*
+!/**/
+!*.*
+
+
 # Compiled Object files
 *.slo
 *.lo
@@ -15,7 +20,6 @@
 
 # Fortran module files
 *.mod
-*.smod
 
 # Compiled Static libraries
 *.lai
@@ -27,3 +31,20 @@
 *.exe
 *.out
 *.app
+
+# Debug files
+*.dSYM/
+
+*.swp
+*.swo
+
+*_r2
+*.ll
+
+*.DS_Store
+
+# QtCreator files
+*.pro
+*.pro.user
+*.pro.user.*
+
