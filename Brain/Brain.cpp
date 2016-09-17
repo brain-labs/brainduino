@@ -44,13 +44,14 @@ void Brain::reset(void)
 
 void Brain::run(void)
 {
+    reset();
     if (!_code) {
         write("No Code!", true);  
         return;
     }
 
-    for(int sizeCode = sizeof(_code); _action < sizeCode; /* no increment*/) {
-        char token = _code[action];
+    while(_code[_action] != '\0') {
+        char token = _code[_action];
         switch(token) {
             case '<': _index--; break;
             case '>': _index++; break;
@@ -64,16 +65,17 @@ void Brain::run(void)
             case '.': write(char(_cells[_index])); break;
             case '$': write(_cells[_index] / 100); break;
             case '#': {
-                write("Index Pointer: ", true);
+                write("Index Pointer: ", false);
                 write(_index);
-                write(" Value at Index Pointer: ", true);
+                write(" Value at Index Pointer: ", false);
                 write(_cells[_index]);
+                write('\n');
                 break;
             }
             default: break;
         }
         
-        action++;
+        _action++;
     }
 }
 
@@ -96,20 +98,26 @@ void Brain::write(char const *str, boolean newLine)
             _printer->print(str);
         }
     }
+
+    delay(10);
 }
 
-void write(char c) 
+void Brain::write(char c) 
 {
     if (_printer) {
         _printer->print(c);
     }
+
+    delay(10);
 }
 
-void write(int i) 
+void Brain::write(int i) 
 {
     if (_printer) {
         _printer->print(i);
     }
+
+    delay(10);
 }
 
 int Brain::read(void)
@@ -119,7 +127,7 @@ int Brain::read(void)
             // wait for input
         }
        
-        return streamIn->read();
+        return _streamIn->read();
     }
 
     return 0;
