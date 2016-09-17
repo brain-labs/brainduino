@@ -1,5 +1,4 @@
 ## Installation
---------------------------------------------------------------------------------
 
 To install this library, just place this entire folder as a subfolder in your
 Arduino/lib/targets/libraries folder.
@@ -13,7 +12,6 @@ When installed, this library should look like:
 * Arduino/lib/targets/libraries/Test/examples     (the examples in the "open" menu)
 
 ## Building
---------------------------------------------------------------------------------
 
 After this library is installed, you just have to start the Arduino application.
 You may see a few warning messages as it's built.
