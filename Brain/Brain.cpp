@@ -33,10 +33,6 @@ void Brain::setCode(char const *code)
 
 void Brain::reset(void)
 {
-    _index = 0;
-    _indexJumps = 0;
-    _indexIterations = 0;
-    _action = 0;
     for (int i = 0; i < TAPE_SIZE; i++) {
         _cells[i] = 0;
     }
@@ -45,6 +41,13 @@ void Brain::reset(void)
 void Brain::run(void)
 {
     reset();
+    int _index = 0;
+    int _action = 0;
+    int _jumps[STACK_SIZE];
+    int _indexJumps = 0;
+    int _iterations[STACK_SIZE];
+    int _indexIterations = 0;
+
     if (!_code) {
         write("No Code!", true);  
         return;

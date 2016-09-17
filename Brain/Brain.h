@@ -58,14 +58,8 @@ public:
     void setValue(int index, int value);
 
 private:
-    int _index;
-    int _action;
     char const *_code;
     int _cells[TAPE_SIZE];
-    int _jumps[STACK_SIZE];
-    int _indexJumps;
-    int _iterations[STACK_SIZE];
-    int _indexIterations;
     Print *_printer;
     Stream *_streamIn;
     BrainDelegate *_delegate;
