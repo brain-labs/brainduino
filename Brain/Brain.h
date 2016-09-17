@@ -22,7 +22,7 @@
 
 // only tested on Arduino Uno and not enough memory
 // therefore, the memory is very very small
-#define TAPE_SIZE 100 
+#define TAPE_SIZE 100
 #define STACK_SIZE 10
 
 #define TT_SHIFT_LEFT '<'
@@ -46,7 +46,7 @@
 #define TT_IF_END ';'
 #define TT_FLOAT '$'
 
-class Brain 
+class Brain
 {
 
 public:
@@ -64,7 +64,7 @@ private:
     Stream *_streamIn;
     BrainDelegate *_delegate;
 
-    void set(Print *printer, Stream *streamIn, BrainDelegate *delegate, char const *code);    
+    void set(Print *printer, Stream *streamIn, BrainDelegate *delegate, char const *code);
     void write(char const *str, boolean newLine);
     void write(char c);
     void write(int i);
