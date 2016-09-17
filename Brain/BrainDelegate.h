@@ -8,11 +8,13 @@
 #ifndef BRAIN_DELEGATE_H
 #define BRAIN_DELEGATE_H
 
+class Brain;
+
 class BrainDelegate
 {
 public:
     virtual ~BrainDelegate() {}
-    virtual void update() = 0;
+    virtual void update(Brain *brain) = 0;
 };
 
 

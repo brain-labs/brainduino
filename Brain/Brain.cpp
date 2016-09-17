@@ -174,6 +174,10 @@ void Brain::run(void)
             _action++;
         }
     }
+
+    if(_delegate) {
+        _delegate->update(this);
+    }
 }
 
 int Brain::getValue(int index)
