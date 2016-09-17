@@ -12,10 +12,9 @@ Brain	KEYWORD1
 # Methods and Functions (KEYWORD2)
 #######################################
 
-writeCode	KEYWORD2
 setCode	KEYWORD2
 begin	KEYWORD2
-runNextLoop	KEYWORD2
+run	KEYWORD2
 getValue	KEYWORD2
 setValue	KEYWORD2
 

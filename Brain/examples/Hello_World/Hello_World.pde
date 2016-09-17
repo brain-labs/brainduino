@@ -7,16 +7,16 @@
 
 #include <Brain.h>
 
-Brain brain = Brain(&Serial, NULL, NULL, "++++>>>>+++");
+Brain brain = Brain(&Serial, &Serial, NULL);
 
 void setup()
 {
   Serial.begin(57600);
+  brain.setCode("++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.");
 }
 
 void loop()
 {
-  brain.writeCode();
-  delay(500);
+  brain.run();
+  delay(2000);
 }
-
