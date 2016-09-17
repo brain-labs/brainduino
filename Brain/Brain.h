@@ -22,7 +22,7 @@
 
 // only tested on Arduino Uno and not enough memory
 // therefore, the memory is very very small
-#define TAPE_SIZE 200 
+#define TAPE_SIZE 100 
 #define STACK_SIZE 10
 
 #define TT_SHIFT_LEFT '<'
@@ -53,7 +53,6 @@ public:
     Brain(Print *printer, Stream *streamIn, BrainDelegate *delegate);
     Brain(Print *printer, Stream *streamIn, BrainDelegate *delegate, char const *code);
     void setCode(char const *code);
-    void begin(void);
     void run(void);
     int getValue(int index);
     void setValue(int index, int value);
