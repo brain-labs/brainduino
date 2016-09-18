@@ -51,7 +51,7 @@ void Brain::run()
     int _indexIterations = 0;
 
     if (!_code) {
-        write("No code given to run. Try brain.setCode(\"++>++.\")", true);
+        write("No code given to run", true);
         return;
     }
 
