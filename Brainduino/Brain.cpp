@@ -84,9 +84,9 @@ int Brain::exec()
             case TT_OUTPUT: write(char(_cells[_index])); break;
             case TT_FLOAT: write(_cells[_index] / 100); break;
             case TT_DEBUG: {
-                write("ptr: ", false);
+                write("ptr:", false);
                 write(_index);
-                write("#: ", false);
+                write(" #:", false);
                 write(_cells[_index]);
                 write('\n');
                 break;
