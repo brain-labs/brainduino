@@ -16,6 +16,7 @@ setCode	KEYWORD2
 run	KEYWORD2
 getValue	KEYWORD2
 setValue	KEYWORD2
+reset	KEYWORD2
 
 #######################################
 # Instances (KEYWORD2)

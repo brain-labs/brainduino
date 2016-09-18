@@ -40,19 +40,33 @@ void Brain::reset()
     }
 }
 
-void Brain::run()
+int Brain::run()
 {
-    reset();
+    int isErr = exec();
+    if (isErr) {
+        return isErr;
+    }
+
+    if(_delegate) {
+        _delegate->update(this);
+    }
+
+    return isErr; 
+}
+
+int Brain::exec()
+{
     int _index = 0;
     int _action = 0;
     int _jumps[STACK_SIZE];
     int _indexJumps = 0;
     int _iterations[STACK_SIZE];
     int _indexIterations = 0;
+    char err[6] = "Error";
 
     if (!_code) {
-        write("No code given to run", true);
-        return;
+        write(err, true);
+        return 1;
     }
 
     while(_code[_action] != '\0') {
@@ -70,9 +84,9 @@ void Brain::run()
             case TT_OUTPUT: write(char(_cells[_index])); break;
             case TT_FLOAT: write(_cells[_index] / 100); break;
             case TT_DEBUG: {
-                write("Index Pointer: ", false);
+                write("ptr: ", false);
                 write(_index);
-                write(" Value at Index Pointer: ", false);
+                write("#: ", false);
                 write(_cells[_index]);
                 write('\n');
                 break;
@@ -91,7 +105,8 @@ void Brain::run()
                     _jumps[_indexJumps] = _action;
                     _indexJumps++;
                 } else if (token == TT_BREAK && !_indexJumps) {
-                    write("Wrong '!'", true);
+                    write(err, true);
+                    return -1;
                 } else {
                     int loops = 1;
                     while (loops > 0 && _code[_action] != '\0' ) {
@@ -180,9 +195,7 @@ void Brain::run()
         }
     }
 
-    if(_delegate) {
-        _delegate->update(this);
-    }
+    return 0;
 }
 
 int Brain::getValue(int index)

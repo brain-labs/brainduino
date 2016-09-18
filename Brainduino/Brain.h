@@ -57,9 +57,10 @@ public:
     Brain(Print *printer, Stream *streamIn, BrainDelegate *delegate,
           char const *code);
     void setCode(char const *code);
-    void run();
+    int run();
     int getValue(int index);
     void setValue(int index, int value);
+    void reset();
 
 private:
     char const *_code;
@@ -73,8 +74,8 @@ private:
     void write(char const *str, boolean newLine);
     void write(char c);
     void write(int i);
+    int exec();
     int read();
-    void reset();
 };
 
 #endif // BRAIN_H
