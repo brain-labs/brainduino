@@ -6,8 +6,8 @@
  * Copyright Brain, 2016.
  */
 
-#ifndef Brain_h
-#define Brain_h
+#ifndef BRAIN_H
+#define BRAIN_H
 
 // include types & constants of Wiring core API
 #if ARDUINO >= 100
@@ -21,7 +21,7 @@
 #include "BrainDelegate.h"
 
 // only tested on Arduino Uno and not enough memory
-// therefore, the memory is very very small
+// therefore, the memory is very very small.
 #define TAPE_SIZE 100
 #define STACK_SIZE 10
 
@@ -46,14 +46,18 @@
 #define TT_IF_END ';'
 #define TT_FLOAT '$'
 
+/**
+ * @brief Represents the Brain interpreter and also provide functions to be
+ * used in the Arduino environment.
+ */
 class Brain
 {
-
 public:
     Brain(Print *printer, Stream *streamIn, BrainDelegate *delegate);
-    Brain(Print *printer, Stream *streamIn, BrainDelegate *delegate, char const *code);
+    Brain(Print *printer, Stream *streamIn, BrainDelegate *delegate,
+          char const *code);
     void setCode(char const *code);
-    void run(void);
+    void run();
     int getValue(int index);
     void setValue(int index, int value);
 
@@ -64,13 +68,14 @@ private:
     Stream *_streamIn;
     BrainDelegate *_delegate;
 
-    void set(Print *printer, Stream *streamIn, BrainDelegate *delegate, char const *code);
+    void set(Print *printer, Stream *streamIn, BrainDelegate *delegate,
+             char const *code);
     void write(char const *str, boolean newLine);
     void write(char c);
     void write(int i);
-    int read(void);
-    void reset(void);
+    int read();
+    void reset();
 };
 
-#endif
+#endif // BRAIN_H
 

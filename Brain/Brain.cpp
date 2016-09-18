@@ -9,15 +9,17 @@
 
 Brain::Brain(Print *printer, Stream *streamIn, BrainDelegate *delegate)
 {
-    set(printer, streamIn, delegate, NULL);
+    set(printer, streamIn, delegate, nullptr);
 }
 
-Brain::Brain(Print *printer, Stream *streamIn, BrainDelegate *delegate, char const *code)
+Brain::Brain(Print *printer, Stream *streamIn, BrainDelegate *delegate,
+             char const *code)
 {
     set(printer, streamIn, delegate, code);
 }
 
-void Brain::set(Print *printer, Stream *streamIn, BrainDelegate *delegate, char const *code)
+void Brain::set(Print *printer, Stream *streamIn, BrainDelegate *delegate,
+                char const *code)
 {
     reset();
     _printer = printer;
@@ -31,14 +33,14 @@ void Brain::setCode(char const *code)
     _code = code;
 }
 
-void Brain::reset(void)
+void Brain::reset()
 {
     for (int i = 0; i < TAPE_SIZE; i++) {
         _cells[i] = 0;
     }
 }
 
-void Brain::run(void)
+void Brain::run()
 {
     reset();
     int _index = 0;
@@ -49,7 +51,7 @@ void Brain::run(void)
     int _indexIterations = 0;
 
     if (!_code) {
-        write("No Code!", true);  
+        write("No code given to run. Try brain.setCode(\"++>++.\")", true);
         return;
     }
 
@@ -94,8 +96,8 @@ void Brain::run(void)
                     int loops = 1;
                     while (loops > 0 && _code[_action] != '\0' ) {
                         _action++;
-                        if (loops == 1 
-                            && _code[_action] == TT_IF_ELSE 
+                        if (loops == 1
+                            && _code[_action] == TT_IF_ELSE
                             && token == TT_IF_THEN) {
                             loops--;
                             _jumps[_indexJumps] = _action;
@@ -147,7 +149,7 @@ void Brain::run(void)
                             }
                         }
                     }
-                    
+
                     _indexJumps--;
                 } else if (_code[_jumps[_indexJumps - 1]] == TT_BEGIN_FOR) {
                     _iterations[_indexIterations - 1]--;
@@ -169,10 +171,10 @@ void Brain::run(void)
 
                 break;
             }
-    
+
             default: break;
         }
-        
+
         if (_code[_action] != '\0') {
             _action++;
         }
@@ -206,7 +208,7 @@ void Brain::write(char const *str, boolean newLine)
     delay(10);
 }
 
-void Brain::write(char c) 
+void Brain::write(char c)
 {
     if (_printer) {
         _printer->print(c);
@@ -215,7 +217,7 @@ void Brain::write(char c)
     delay(10);
 }
 
-void Brain::write(int i) 
+void Brain::write(int i)
 {
     if (_printer) {
         _printer->print(i);
@@ -224,13 +226,13 @@ void Brain::write(int i)
     delay(10);
 }
 
-int Brain::read(void)
+int Brain::read()
 {
     if (_streamIn) {
         while (!_streamIn->available()) {
             // wait for input
         }
-       
+
         return _streamIn->read();
     }
 
