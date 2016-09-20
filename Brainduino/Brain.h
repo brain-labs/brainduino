@@ -25,7 +25,7 @@
  * it needs to be small on most platforms. The library was tested on:
  *
  * Arduino Uno (2KiB of memory)
- * Arduino Nano (2Kib of memory)
+ * Arduino Nano (2KiB of memory)
  */
 #define TAPE_SIZE 100
 #define STACK_SIZE 10
