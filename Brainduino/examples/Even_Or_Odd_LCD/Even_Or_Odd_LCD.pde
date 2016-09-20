@@ -9,7 +9,7 @@
 #include <LiquidCrystal.h>
 
 // initialize the library with the numbers of the interface pins
-LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+LiquidCrystal lcd(7, 6, 5, 4, 3, 2);
 
 Brain brain = Brain(&lcd, &Serial, NULL);
 
@@ -18,12 +18,13 @@ void setup()
   Serial.begin(57600);
   lcd.begin(16, 2);
   lcd.noAutoscroll();
-  brain.setCode("++>+++++>++++++++++>+**<[-]+*>*<<%>>$>++++++++++>+++*++.<{>>+<<}>>>+**+++++.++++++++++.<<.<<<<?>>>>>>----.-----------..:>>>>>>>+*<<++++{>>-<<}>>.<+++.>.<--------.;");
+  brain.set_code("++>+++++>++++++++++>+**<[-]+*>*<<%>>$>++++++++++>+++*++.<{>>+<<}>>>+**+++++.++++++++++.<<.<<<<?>>>>>>----.-----------..:>>>>>>>+*<<++++{>>-<<}>>.<+++.>.<--------.;");
 }
 
 void loop()
 {
   lcd.setCursor(0, 0);
+  brain.reset();
   brain.run();
   delay(2000);
 }

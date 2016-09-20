@@ -1,5 +1,5 @@
 /*
- * This is the source code of Brain Programming Language.
+ * This is the source code of Brainduino.
  * It is licensed under GNU GPL v. 3 or later.
  * You should have received a copy of the license in this archive (see LICENSE).
  *
@@ -26,9 +26,19 @@
  *
  * Arduino Uno (2KiB of memory)
  * Arduino Nano (2KiB of memory)
+ *
+ * Note: you may change the macro TAPE_SIZE
+ * in order to increase or decrease your tape size.
+ * You can do the same for the size of the stack.
  */
+
+#ifndef TAPE_SIZE
 #define TAPE_SIZE 100
+#endif //TAPE_SIZE
+
+#ifndef STACK_SIZE
 #define STACK_SIZE 10
+#endif //STACK_SIZE
 
 #define TT_SHIFT_LEFT '<'
 #define TT_SHIFT_RIGHT '>'
@@ -58,89 +68,94 @@
 class Brain
 {
 public:
-	/**
-	 * @brief Class constructor.
-	 * @param printer The default Print object.
-	 * @param stream_in The default Stream object.
-	 * @param delegate
-	 */
+    /**
+     * @brief Class constructor.
+     * @param printer The default Output object.
+     * @param stream_in The default Stream object.
+     * @param delegate
+     */
     Brain(Print *printer, Stream *stream_in, BrainDelegate *delegate);
-	/**
-	 * @brief Class constructor.
-	 * @param printer The default Print object.
-	 * @param stream_in The default Stream object.
-	 * @param delegate
-	 * @param code The code string to be executed inside Brain.
-	 */
+    /**
+     * @brief Class constructor.
+     * @param printer The default Print object.
+     * @param stream_in The default Stream object.
+     * @param delegate
+     * @param code The code string to be executed inside Brain.
+     */
     Brain(Print *printer, Stream *stream_in, BrainDelegate *delegate,
           char const *code);
-	/**
-	 * @brief Set the code string to be executed.
-	 * @param code A string of Brain code.
-	 */
+    /**
+     * @brief Set the code string to be executed.
+     * @param code A string of Brain code.
+     */
     void set_code(char const *code);
-	/**
-	 * @brief Executes Brain code on Arduino.
-	 */
+    /**
+     * @brief Executes Brain code on Arduino.
+     */
     int run();
-	/**
-	 * @brief Gets the value of the cell at index.
-	 * @param index The index which
-	 */
+    /**
+     * @brief Gets the value of the cell at index.
+     * @param index The index which
+     */
     int get_value(int index);
-	/**
-	 * @brief Sets the value of the cell at index.
-	 * @param index The index to reference the cell.
-	 * @param value The value to be placed inside the cell.
-	 */
+    /**
+     * @brief Sets the value of the cell at index.
+     * @param index The index to reference the cell.
+     * @param value The value to be placed inside the cell.
+     */
     void set_value(int index, int value);
-	/**
-	 * @brief Reset all cells of Brain to 0.
-	 */
+    /**
+     * @brief Reset all cells of Brain to 0.
+     */
     void reset();
 
 private:
-	/// The code string.
+    /// The code string.
     char const *_code;
-	/// The Brain tape.
+    /// The Brain tape.
     int _cells[TAPE_SIZE];
     Print *_printer;
     Stream *_stream_in;
-	/**
-	 * Brainduino uses a delegate to update or to execute any information at
-	 * each Arduino loop cycle.
-	 */
+    /**
+     * Brainduino uses a delegate to update or to execute any information at
+     * each Arduino loop cycle.
+     */
     BrainDelegate *_delegate;
 
-	/**
-	 * @brief Sets properties of Brain
-	 * @param printer The default Printer object.
-	 * @param stream_in The default Stream object.
-	 * param delegate
-	 * @param code The default code string.
-	 */
+    /**
+     * @brief Sets properties of Brain
+     * @param printer The default Printer object.
+     * @param stream_in The default Stream object.
+     * param delegate
+     * @param code The default code string.
+     */
     void set(Print *printer, Stream *stream_in, BrainDelegate *delegate,
              char const *code);
-    void write(char const *str, boolean new_line);i
-	/**
-	 * @brief Writes characters to the stdout.
-	 * @param c A character.
-	 */
+    /*
+     * @brief Writes a string to stdout.
+     * @param str A string.
+     * @param new_line if set to true will print '\n'
+     */
+    void write(char const *str, boolean new_line);
+    /**
+     * @brief Writes characters to the stdout.
+     * @param c A character.
+     */
     void write(char c);
-	/**
-	 * @brief Writes integers to the stdout.
-	 * @param i An integer.
-	 */
+    /**
+     * @brief Writes integers to the stdout.
+     * @param i An integer.
+     */
     void write(int i);
- 	/**
-	 * @brief Execute Brain code from _code string.
-	 * @returns A integer representing the state of its execution.
-	 */
-  	int exec();
-	/**
-	 * @brief Reads a value available from Stream.
-	 * @returns The read value on successfull and 0 if nothing was read.
-	 */
+    /**
+     * @brief Execute Brain code from _code string.
+     * @returns A integer representing the state of its execution.
+     */
+    int exec();
+    /**
+     * @brief Reads a value available from Stream.
+     * @returns The read value on successfull and 0 if nothing was read.
+     */
     int read();
 };
 

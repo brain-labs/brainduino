@@ -1,4 +1,4 @@
-/* This is the source code of Brain Programming Language.
+/* This is the source code of Brainduino.
  * It is licensed under GNU GPL v. 3 or later.
  * You should have received a copy of the license in this archive (see LICENSE).
  *
@@ -23,7 +23,7 @@ void Brain::set(Print *printer, Stream *stream_in, BrainDelegate *delegate,
 {
     reset();
     _printer = printer;
-    _streamIn = stream_in;
+    _stream_in = stream_in;
     _delegate = delegate;
     _code = code;
 }
