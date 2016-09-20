@@ -7,28 +7,28 @@
 
 #include "Brain.h"
 
-Brain::Brain(Print *printer, Stream *streamIn, BrainDelegate *delegate)
+Brain::Brain(Print *printer, Stream *stream_in, BrainDelegate *delegate)
 {
-    set(printer, streamIn, delegate, nullptr);
+    set(printer, stream_in, delegate, nullptr);
 }
 
-Brain::Brain(Print *printer, Stream *streamIn, BrainDelegate *delegate,
+Brain::Brain(Print *printer, Stream *stream_in, BrainDelegate *delegate,
              char const *code)
 {
-    set(printer, streamIn, delegate, code);
+    set(printer, stream_in, delegate, code);
 }
 
-void Brain::set(Print *printer, Stream *streamIn, BrainDelegate *delegate,
+void Brain::set(Print *printer, Stream *stream_in, BrainDelegate *delegate,
                 char const *code)
 {
     reset();
     _printer = printer;
-    _streamIn = streamIn;
+    _streamIn = stream_in;
     _delegate = delegate;
     _code = code;
 }
 
-void Brain::setCode(char const *code)
+void Brain::set_code(char const *code)
 {
     _code = code;
 }
@@ -42,16 +42,16 @@ void Brain::reset()
 
 int Brain::run()
 {
-    int isErr = exec();
-    if (isErr) {
-        return isErr;
+    int is_err = exec();
+    if (is_err) {
+        return is_err;
     }
 
     if(_delegate) {
         _delegate->update(this);
     }
 
-    return isErr; 
+    return is_err;
 }
 
 int Brain::exec()
@@ -59,7 +59,7 @@ int Brain::exec()
     int _index = 0;
     int _action = 0;
     int _jumps[STACK_SIZE];
-    int _indexJumps = 0;
+    int _index_jumps = 0;
     int _iterations[STACK_SIZE];
     int _indexIterations = 0;
     char err[6] = "Error";
@@ -97,14 +97,14 @@ int Brain::exec()
             case TT_BREAK: {
                 if (_cells[_index] != 0
                     && (token == TT_BEGIN_WHILE || token == TT_IF_THEN)) {
-                    _jumps[_indexJumps] = _action;
-                    _indexJumps++;
+                    _jumps[_index_jumps] = _action;
+                    _index_jumps++;
                 } else if (_cells[_index] > 0 && token == TT_BEGIN_FOR) {
                     _iterations[_indexIterations] = _cells[_index];
                     _indexIterations++;
-                    _jumps[_indexJumps] = _action;
-                    _indexJumps++;
-                } else if (token == TT_BREAK && !_indexJumps) {
+                    _jumps[_index_jumps] = _action;
+                    _index_jumps++;
+                } else if (token == TT_BREAK && !_index_jumps) {
                     write(err, true);
                     return -1;
                 } else {
@@ -115,22 +115,22 @@ int Brain::exec()
                             && _code[_action] == TT_IF_ELSE
                             && token == TT_IF_THEN) {
                             loops--;
-                            _jumps[_indexJumps] = _action;
-                            _indexJumps++;
+                            _jumps[_index_jumps] = _action;
+                            _index_jumps++;
                         } else if (_code[_action] == TT_END_WHILE
                                    || _code[_action] == TT_END_FOR
                                    || _code[_action] == TT_IF_END) {
                             loops--;
                             if (token == TT_BREAK) {
-                                int theJump = _code[_jumps[_indexJumps - 1]];
+                                int theJump = _code[_jumps[_index_jumps - 1]];
                                 if (theJump == TT_BEGIN_WHILE) {
-                                    _indexJumps--;
+                                    _index_jumps--;
                                 } else if (theJump == TT_BEGIN_FOR) {
-                                    _indexJumps--;
+                                    _index_jumps--;
                                     _indexIterations--;
                                 } else {
                                     // it is not a real loop
-                                    _indexJumps--;
+                                    _index_jumps--;
                                     loops++;
                                 }
                             }
@@ -148,7 +148,7 @@ int Brain::exec()
             case TT_END_FOR:
             case TT_IF_ELSE:
             case TT_IF_END: {
-                if (_code[_jumps[_indexJumps - 1]] == TT_IF_THEN) {
+                if (_code[_jumps[_index_jumps - 1]] == TT_IF_THEN) {
                     if (token == TT_IF_ELSE) {
                         int loops = 1;
                         while (loops > 0 && _code[_action] != '\0') {
@@ -165,22 +165,22 @@ int Brain::exec()
                         }
                     }
 
-                    _indexJumps--;
-                } else if (_code[_jumps[_indexJumps - 1]] == TT_BEGIN_FOR) {
+                    _index_jumps--;
+                } else if (_code[_jumps[_index_jumps - 1]] == TT_BEGIN_FOR) {
                     _iterations[_indexIterations - 1]--;
                     if (_iterations[_indexIterations - 1] > 0) {
-                        _action = _jumps[_indexJumps - 1];
+                        _action = _jumps[_index_jumps - 1];
                     } else {
                         _indexIterations--;
-                        _indexJumps--;
+                        _index_jumps--;
                     }
                 } else {
-                    if (_code[_jumps[_indexJumps - 1]] == TT_IF_ELSE) {
-                        _indexJumps--;
+                    if (_code[_jumps[_index_jumps - 1]] == TT_IF_ELSE) {
+                        _index_jumps--;
                     } else if (_cells[_index] != 0) {
-                        _action = _jumps[_indexJumps - 1];
+                        _action = _jumps[_index_jumps - 1];
                     } else {
-                        _indexJumps--;
+                        _index_jumps--;
                     }
                 }
 
@@ -198,20 +198,20 @@ int Brain::exec()
     return 0;
 }
 
-int Brain::getValue(int index)
+int Brain::get_value(int index)
 {
     return _cells[index];
 }
 
-void Brain::setValue(int index, int value)
+void Brain::set_value(int index, int value)
 {
     _cells[index] = value;
 }
 
-void Brain::write(char const *str, boolean newLine)
+void Brain::write(char const *str, boolean new_line)
 {
     if (_printer) {
-        if(newLine) {
+        if(new_line) {
             _printer->println(str);
         } else {
             _printer->print(str);
@@ -241,12 +241,12 @@ void Brain::write(int i)
 
 int Brain::read()
 {
-    if (_streamIn) {
-        while (!_streamIn->available()) {
+    if (_stream_in) {
+        while (!_stream_in->available()) {
             // wait for input
         }
 
-        return _streamIn->read();
+        return _stream_in->read();
     }
 
     return 0;
