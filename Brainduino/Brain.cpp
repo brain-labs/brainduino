@@ -56,12 +56,12 @@ int Brain::run()
 
 int Brain::exec()
 {
-    int _index = 0;
-    int _action = 0;
-    int _jumps[STACK_SIZE];
-    int _index_jumps = 0;
-    int _iterations[STACK_SIZE];
-    int _indexIterations = 0;
+    int index = 0;
+    int action = 0;
+    int jumps[STACK_SIZE];
+    int index_jumps = 0;
+    int iterations[STACK_SIZE];
+    int index_iterations = 0;
     char err[6] = "Error";
 
     if (!_code) {
@@ -69,25 +69,25 @@ int Brain::exec()
         return 1;
     }
 
-    while(_code[_action] != '\0') {
-        char token = _code[_action];
+    while(_code[action] != '\0') {
+        char token = _code[action];
         switch(token) {
-            case TT_SHIFT_LEFT: _index--; break;
-            case TT_SHIFT_RIGHT: _index++; break;
-            case TT_SHIFT_UP: _index = _cells[_index]; break;
-            case TT_INCREMENT: _cells[_index]++; break;
-            case TT_DECREMENT: _cells[_index]--; break;
-            case TT_MUL: _cells[_index] *= _cells[_index - 1]; break;
-            case TT_DIV: _cells[_index] /= _cells[_index - 1]; break;
-            case TT_REM: _cells[_index] %= _cells[_index - 1]; break;
-            case TT_INPUT: _cells[_index] = read(); break;
-            case TT_OUTPUT: write(char(_cells[_index])); break;
-            case TT_FLOAT: write(_cells[_index] / 100); break;
+            case TT_SHIFT_LEFT: index--; break;
+            case TT_SHIFT_RIGHT: index++; break;
+            case TT_SHIFT_UP: index = _cells[index]; break;
+            case TT_INCREMENT: _cells[index]++; break;
+            case TT_DECREMENT: _cells[index]--; break;
+            case TT_MUL: _cells[index] *= _cells[index - 1]; break;
+            case TT_DIV: _cells[index] /= _cells[index - 1]; break;
+            case TT_REM: _cells[index] %= _cells[index - 1]; break;
+            case TT_INPUT: _cells[index] = read(); break;
+            case TT_OUTPUT: write(char(_cells[index])); break;
+            case TT_FLOAT: write(_cells[index] / 100); break;
             case TT_DEBUG: {
                 write("ptr:", false);
-                write(_index);
+                write(index);
                 write(" #:", false);
-                write(_cells[_index]);
+                write(_cells[index]);
                 write('\n');
                 break;
             }
@@ -95,48 +95,48 @@ int Brain::exec()
             case TT_BEGIN_FOR:
             case TT_IF_THEN:
             case TT_BREAK: {
-                if (_cells[_index] != 0
+                if (_cells[index] != 0
                     && (token == TT_BEGIN_WHILE || token == TT_IF_THEN)) {
-                    _jumps[_index_jumps] = _action;
-                    _index_jumps++;
-                } else if (_cells[_index] > 0 && token == TT_BEGIN_FOR) {
-                    _iterations[_indexIterations] = _cells[_index];
-                    _indexIterations++;
-                    _jumps[_index_jumps] = _action;
-                    _index_jumps++;
-                } else if (token == TT_BREAK && !_index_jumps) {
+                    jumps[index_jumps] = action;
+                    index_jumps++;
+                } else if (_cells[index] > 0 && token == TT_BEGIN_FOR) {
+                    iterations[index_iterations] = _cells[index];
+                    index_iterations++;
+                    jumps[index_jumps] = action;
+                    index_jumps++;
+                } else if (token == TT_BREAK && !index_jumps) {
                     write(err, true);
                     return -1;
                 } else {
                     int loops = 1;
-                    while (loops > 0 && _code[_action] != '\0' ) {
-                        _action++;
+                    while (loops > 0 && _code[action] != '\0' ) {
+                        action++;
                         if (loops == 1
-                            && _code[_action] == TT_IF_ELSE
+                            && _code[action] == TT_IF_ELSE
                             && token == TT_IF_THEN) {
                             loops--;
-                            _jumps[_index_jumps] = _action;
-                            _index_jumps++;
-                        } else if (_code[_action] == TT_END_WHILE
-                                   || _code[_action] == TT_END_FOR
-                                   || _code[_action] == TT_IF_END) {
+                            jumps[index_jumps] = action;
+                            index_jumps++;
+                        } else if (_code[action] == TT_END_WHILE
+                                   || _code[action] == TT_END_FOR
+                                   || _code[action] == TT_IF_END) {
                             loops--;
                             if (token == TT_BREAK) {
-                                int theJump = _code[_jumps[_index_jumps - 1]];
+                                int theJump = _code[jumps[index_jumps - 1]];
                                 if (theJump == TT_BEGIN_WHILE) {
-                                    _index_jumps--;
+                                    index_jumps--;
                                 } else if (theJump == TT_BEGIN_FOR) {
-                                    _index_jumps--;
-                                    _indexIterations--;
+                                    index_jumps--;
+                                    index_iterations--;
                                 } else {
                                     // it is not a real loop
-                                    _index_jumps--;
+                                    index_jumps--;
                                     loops++;
                                 }
                             }
-                        } else if (_code[_action] == TT_BEGIN_WHILE
-                                   || _code[_action] == TT_BEGIN_FOR
-                                   || _code[_action] == TT_IF_THEN) {
+                        } else if (_code[action] == TT_BEGIN_WHILE
+                                   || _code[action] == TT_BEGIN_FOR
+                                   || _code[action] == TT_IF_THEN) {
                             loops++;
                         }
                     }
@@ -148,39 +148,39 @@ int Brain::exec()
             case TT_END_FOR:
             case TT_IF_ELSE:
             case TT_IF_END: {
-                if (_code[_jumps[_index_jumps - 1]] == TT_IF_THEN) {
+                if (_code[jumps[index_jumps - 1]] == TT_IF_THEN) {
                     if (token == TT_IF_ELSE) {
                         int loops = 1;
-                        while (loops > 0 && _code[_action] != '\0') {
-                            _action++;
-                            if (_code[_action] == TT_END_WHILE
-                                || _code[_action] == TT_END_FOR
-                                || _code[_action] == TT_IF_END) {
+                        while (loops > 0 && _code[action] != '\0') {
+                            action++;
+                            if (_code[action] == TT_END_WHILE
+                                || _code[action] == TT_END_FOR
+                                || _code[action] == TT_IF_END) {
                                 loops--;
-                            } else if (_code[_action] == TT_BEGIN_WHILE
-                                       || _code[_action] == TT_BEGIN_FOR
-                                       || _code[_action] == TT_IF_THEN) {
+                            } else if (_code[action] == TT_BEGIN_WHILE
+                                       || _code[action] == TT_BEGIN_FOR
+                                       || _code[action] == TT_IF_THEN) {
                                 loops++;
                             }
                         }
                     }
 
-                    _index_jumps--;
-                } else if (_code[_jumps[_index_jumps - 1]] == TT_BEGIN_FOR) {
-                    _iterations[_indexIterations - 1]--;
-                    if (_iterations[_indexIterations - 1] > 0) {
-                        _action = _jumps[_index_jumps - 1];
+                    index_jumps--;
+                } else if (_code[jumps[index_jumps - 1]] == TT_BEGIN_FOR) {
+                    iterations[index_iterations - 1]--;
+                    if (iterations[index_iterations - 1] > 0) {
+                        action = jumps[index_jumps - 1];
                     } else {
-                        _indexIterations--;
-                        _index_jumps--;
+                        index_iterations--;
+                        index_jumps--;
                     }
                 } else {
-                    if (_code[_jumps[_index_jumps - 1]] == TT_IF_ELSE) {
-                        _index_jumps--;
-                    } else if (_cells[_index] != 0) {
-                        _action = _jumps[_index_jumps - 1];
+                    if (_code[jumps[index_jumps - 1]] == TT_IF_ELSE) {
+                        index_jumps--;
+                    } else if (_cells[index] != 0) {
+                        action = jumps[index_jumps - 1];
                     } else {
-                        _index_jumps--;
+                        index_jumps--;
                     }
                 }
 
@@ -190,8 +190,8 @@ int Brain::exec()
             default: break;
         }
 
-        if (_code[_action] != '\0') {
-            _action++;
+        if (_code[action] != '\0') {
+            action++;
         }
     }
 
