@@ -12,10 +12,10 @@ Brain	KEYWORD1
 # Methods and Functions (KEYWORD2)
 #######################################
 
-set_code	KEYWORD2
+setCode KEYWORD2
 run	KEYWORD2
-get_value	KEYWORD2
-set_value	KEYWORD2
+getValue	KEYWORD2
+setValue	KEYWORD2
 reset	KEYWORD2
 
 #######################################
@@ -25,4 +25,3 @@ reset	KEYWORD2
 #######################################
 # Constants (LITERAL1)
 #######################################
-

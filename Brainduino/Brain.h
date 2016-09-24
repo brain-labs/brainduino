@@ -88,7 +88,7 @@ public:
      * @brief Set the code string to be executed.
      * @param code A string of Brain code.
      */
-    void set_code(char const *code);
+    void setCode(char const *code);
     /**
      * @brief Executes Brain code on Arduino.
      */
@@ -97,13 +97,13 @@ public:
      * @brief Gets the value of the cell at index.
      * @param index The index which
      */
-    int get_value(int index);
+    int getValue(int index);
     /**
      * @brief Sets the value of the cell at index.
      * @param index The index to reference the cell.
      * @param value The value to be placed inside the cell.
      */
-    void set_value(int index, int value);
+    void setValue(int index, int value);
     /**
      * @brief Reset all cells of Brain to 0.
      */
@@ -160,4 +160,3 @@ private:
 };
 
 #endif // BRAIN_H
-

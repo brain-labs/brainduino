@@ -28,7 +28,7 @@ void Brain::set(Print *printer, Stream *stream_in, BrainDelegate *delegate,
     _code = code;
 }
 
-void Brain::set_code(char const *code)
+void Brain::setCode(char const *code)
 {
     _code = code;
 }
@@ -198,12 +198,12 @@ int Brain::exec()
     return 0;
 }
 
-int Brain::get_value(int index)
+int Brain::getValue(int index)
 {
     return _cells[index];
 }
 
-void Brain::set_value(int index, int value)
+void Brain::setValue(int index, int value)
 {
     _cells[index] = value;
 }

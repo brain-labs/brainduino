@@ -13,7 +13,8 @@ class Brain;
 class BrainDelegate
 {
 public:
-    virtual ~BrainDelegate() {}
+    // This delegate will probably exist forever 
+    //virtual ~BrainDelegate() {}
     virtual void update(Brain *brain) = 0;
 };
 
