@@ -40,6 +40,9 @@
 #define STACK_SIZE 10
 #endif //STACK_SIZE
 
+// 32768 because random will take that -1
+#define BRAIN_RANDOM_MAX 32768
+
 #define TT_SHIFT_LEFT '<'
 #define TT_SHIFT_RIGHT '>'
 #define TT_SHIFT_UP '^'
@@ -60,6 +63,7 @@
 #define TT_IF_ELSE ':'
 #define TT_IF_END ';'
 #define TT_FLOAT '$'
+#define TT_RANDOM '_'
 
 /**
  * @brief Represents the Brain interpreter and also provide functions to be
@@ -80,10 +84,10 @@ public:
      * @param printer The default Print object.
      * @param stream_in The default Stream object.
      * @param delegate
-     * @param code The code string to be executed inside Brain.
+     * @param seed The seed for the random.
      */
     Brain(Print *printer, Stream *stream_in, BrainDelegate *delegate,
-          char const *code);
+          int seed);
     /**
      * @brief Set the code string to be executed.
      * @param code A string of Brain code.
@@ -127,10 +131,10 @@ private:
      * @param printer The default Printer object.
      * @param stream_in The default Stream object.
      * param delegate
-     * @param code The default code string.
+     * @param seed The seed for the random generation.
      */
     void set(Print *printer, Stream *stream_in, BrainDelegate *delegate,
-             char const *code);
+             int seed);
     /*
      * @brief Writes a string to stdout.
      * @param str A string.

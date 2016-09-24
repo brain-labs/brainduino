@@ -9,23 +9,23 @@
 
 Brain::Brain(Print *printer, Stream *stream_in, BrainDelegate *delegate)
 {
-    set(printer, stream_in, delegate, nullptr);
+    set(printer, stream_in, delegate, 0);
 }
 
 Brain::Brain(Print *printer, Stream *stream_in, BrainDelegate *delegate,
-             char const *code)
+             int seed)
 {
-    set(printer, stream_in, delegate, code);
+    set(printer, stream_in, delegate, seed);
 }
 
 void Brain::set(Print *printer, Stream *stream_in, BrainDelegate *delegate,
-                char const *code)
+                int seed)
 {
     reset();
     _printer = printer;
     _stream_in = stream_in;
     _delegate = delegate;
-    _code = code;
+    randomSeed(seed);
 }
 
 void Brain::setCode(char const *code)
@@ -77,6 +77,7 @@ int Brain::exec()
             case TT_SHIFT_UP: index = _cells[index]; break;
             case TT_INCREMENT: _cells[index]++; break;
             case TT_DECREMENT: _cells[index]--; break;
+            case TT_RANDOM: _cells[index] = random(0, BRAIN_RANDOM_MAX); break;
             case TT_MUL: _cells[index] *= _cells[index - 1]; break;
             case TT_DIV: _cells[index] /= _cells[index - 1]; break;
             case TT_REM: _cells[index] %= _cells[index - 1]; break;
