@@ -17,6 +17,7 @@ void setup()
 
 void loop()
 {
+  brain.reset();
   brain.run();
   delay(2000);
 }

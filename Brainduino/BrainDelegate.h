@@ -1,4 +1,4 @@
-/* This is the source code of Brain Programming Language.
+/* This is the source code of Brainduino.
  * It is licensed under GNU GPL v. 3 or later.
  * You should have received a copy of the license in this archive (see LICENSE).
  *
@@ -13,7 +13,8 @@ class Brain;
 class BrainDelegate
 {
 public:
-    virtual ~BrainDelegate() {}
+    // This delegate will probably exist forever 
+    //virtual ~BrainDelegate() {}
     virtual void update(Brain *brain) = 0;
 };
 
