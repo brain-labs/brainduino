@@ -11,6 +11,7 @@ Brain brain = Brain(&Serial, &Serial, NULL);
 
 void setup()
 {
+  // You might want to change this value to see correct output in the serial monitor.
   Serial.begin(57600);
   brain.setCode("++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.");
 }
