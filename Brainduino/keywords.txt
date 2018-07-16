@@ -12,7 +12,7 @@ Brain	KEYWORD1
 # Methods and Functions (KEYWORD2)
 #######################################
 
-setCode KEYWORD2
+setCode	KEYWORD2
 run	KEYWORD2
 getValue	KEYWORD2
 setValue	KEYWORD2
